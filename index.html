@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Photoshop Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+      color: #fff;
+      animation: bgShift 15s ease-in-out infinite alternate;
+      padding: 40px 20px;
+    }
+    @keyframes bgShift {
+      0% { background-position: left; }
+      100% { background-position: right; }
+    }
+    .container {
+      text-align: center;
+      max-width: 1400px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 50px;
+      background: linear-gradient(90deg, #fc466b, #3f5efb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0% { text-shadow: 0 0 10px #fc466b; }
+      50% { text-shadow: 0 0 30px #3f5efb; }
+      100% { text-shadow: 0 0 10px #fc466b; }
+    }
+    .cards {
+      display: grid;
+      gap: 40px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 768px) {
+      .cards {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 1200px) {
+      .cards {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .card {
+      background: linear-gradient(145deg, #2e2b4f, #3e3b63);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 30px rgba(255, 105, 180, 0.1);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      animation: float 6s ease-in-out infinite;
+    }
+    .card:hover {
+      transform: rotateY(15deg) rotateX(8deg) scale(1.1);
+      box-shadow: 0 25px 60px rgba(255, 105, 180, 0.5);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, #fc466b 30%, transparent 60%, #3f5efb);
+      animation: spin 5s linear infinite;
+      opacity: 0.06;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .card h2 {
+      font-size: 1.4rem;
+      color: #ffd6f6;
+      text-shadow: 0 0 10px rgba(255, 182, 193, 0.7);
+      z-index: 1;
+      position: relative;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal embed,
+    .modal video,
+    .modal img {
+      max-width: 96vw;
+      max-height: 96vh;
+      border-radius: 12px;
+      box-shadow: 0 0 25px #fc466b;
+      animation: zoomIn 0.6s ease;
+    }
+
+    .modal embed {
+      width: 96vw;
+      height: 96vh;
+    }
+
+    .modal .close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      font-size: 42px;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .modal .close:hover {
+      color: #ff4444;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💫 Welcome to My <br>Photoshop Design</h1>
+    <div class="cards">
+      <div class="card" onclick="openModal('banner.jpeg', 'image')"><h2>Banner</h2></div> 
+      <div class="card" onclick="openModal('shopping.jpeg', 'image')"><h2>Shopping Advertise</h2></div> 
+       <div class="card" onclick="openModal('Business card.pdf', 'pdf')"><h2>Business Card</h2></div>
+      <div class="card" onclick="openModal('animated-banner.mp4', 'video')"><h2>Animated Banner</h2></div> 
+      <div class="card" onclick="openModal('Book.jpeg', 'image')"><h2>Book Advertisement</h2></div>  
+      <div class="card" onclick="openModal('web-template-Aarif.pdf', 'pdf')"><h2>Web Template</h2></div> 
+    </div>
+
+  </div>
+
+  <div class="modal" id="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div id="modal-content"></div>
+  </div>
+
+  <script>
+    function openModal(file, type) {
+      const modal = document.getElementById('modal');
+      const content = document.getElementById('modal-content');
+
+      if (file.endsWith('.mp4') || type === 'video') {
+        content.innerHTML = `
+          <video src="${file}" autoplay muted loop controls></video>
+        `;
+      } else if (type === 'pdf') {
+        content.innerHTML = `
+          <embed src="${file}" type="application/pdf">
+        `;
+      } else {
+        content.innerHTML = `
+          <img src="${file}" alt="Flyer Image" />
+        `;
+      }
+
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+</body>
+</html>
